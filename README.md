@@ -72,8 +72,15 @@ Connect container prediciton-ui and prediction-api to the same container network
 
 # Lab 3: Create a CI-CD pipeline
 1. Enable Cloud Build API, Cloud Run, Artifcat Registry APIs on Google Cloud.
-2. Configure the Google Cloud Build API accounts (see lab3 part 3 how to do this)
+2. Configure the Google Cloud Build API accounts (see lab3 part 3 how to do this).
+3. Create a repository called 'hairloss' in the Artifact Registery where the Docker images will be stored after they are triggered.
 3. Connect with the repo: DataEngineering and create a trigger.
+4. Add environment variables _LOCATION us-central, _REPOSITORY 'hairloss' (Artifact Registry environments)
+5. Run the trigger manually for now
+6. Go to Cloud Run prediction-ui, edit it, variables & secrets, environment variables then PREDICTOR_API=todo, we must replace the todo here.
+7. Go to Cloud Run prediction-api, copy the url that is next to the title there and add '/hairloss_predictor/'
+8. Go to prediction-ui, copy URL there and then add 'checkhairloss'
+e.g. https://prediction-ui-136177505402.us-central1.run.app/checkhairloss works!
 
 
 
