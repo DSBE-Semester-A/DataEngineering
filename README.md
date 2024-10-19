@@ -43,6 +43,12 @@ Now you can access the html page by connecting to your VM and run python3 app.py
 1. Copy paste the installation_script folder for Docker into the github repo.
 2. Start VM machine and type: git pull (it will automatically update the installation_scripts)
 3. Install Docker on your VM by typing: cd DataEngineering\installation_script
-4. sh docker.sh 
+4. sh docker.sh
+5. Write Dockerfile and .dockerignore file
+6. Push to git
+7. In your SSH of the VM type: git pull
+8. sudo docker build .
+9. 
+
 
 
