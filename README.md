@@ -55,7 +55,24 @@ S0: sudo docker run -p 5001:5000 -e PREDICTOR_API=http://prediction-api:5000/hai
 By executing step 9 we run the Dockerfile in the prediction ui folder and thus run app.py
 10. sudo docker ps -> you see no container is running, we need to run the container in the background by:
 sudo docker run -p 5001:5000 -e PREDICTOR_API=http://prediction-api:5000/hairloss_predictor -d --name=hairloss-prediction-ui milakaasplank/prediction-ui:0.0.1
-11. 
+
+Now we will build prediction-api container
+1. Make dockerfile in prediction-api folder
+2. Push to main in Github and type in DataEngineering\: git pull
+3. sudo docker build -t milakaasplank/prediction-api:0.0.1 .
+4. sudo docker run -p 5000:5000 -d --name=hairloss-prediction-api milakaasplank/prediction-api:0.0.1
+5. Check if image is created: sudo docker images
+6. sudo docker start prediction-api
+
+Connect container prediciton-ui and prediction-api to the same container network in order to be able to talk to each other
+7. sudo docker network create hairloss-app-network
+8. sudo docker network connect hairloss-app-network prediction-api
+9. sudo docker network connect hairloss-app-network prediction-ui
+10. Go to http:/VM_External_IP:5001/checkhairloss
+
+# Lab 3: Create a CI-CD pipeline
+
+
 
 
 
