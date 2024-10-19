@@ -40,5 +40,8 @@ The internal IP address of the VM can only used by the VM. External IP address c
 Now you can access the html page by connecting to your VM and run python3 app.py and go the url in step 17.
 
 ## Lab 2
+1. Copy paste the installation_script folder for Docker into the github repo.
+2. Install Docker on your VM by starting your VM.
+2. 
 
 
