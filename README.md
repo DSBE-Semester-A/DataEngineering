@@ -71,6 +71,9 @@ Connect container prediciton-ui and prediction-api to the same container network
 10. Go to http:/VM_External_IP:5001/checkhairloss
 
 # Lab 3: Create a CI-CD pipeline
+1. Enable Cloud Build API, Cloud Run, Artifcat Registry APIs on Google Cloud.
+2. Configure the Google Cloud Build API accounts (see lab3 part 3 how to do this)
+3. Connect with the repo: DataEngineering and create a trigger.
 
 
 
