@@ -47,8 +47,17 @@ Now you can access the html page by connecting to your VM and run python3 app.py
 5. Write Dockerfile and .dockerignore file
 6. Push to git
 7. In your SSH of the VM type: git pull
-8. sudo docker build .
-9. 
+8. sudo docker build -t milakaasplank/prediction-ui:0.0.1 .
+Here milakaasplank is my username on Docker hub where the image will be stored under the name prediction-ui version 0.0.1
+9. Create a container from the image by:  sudo docker run -p 5001:5000 tagname
+S0: sudo docker run -p 5001:5000 -e PREDICTOR_API=http://prediction-api:5000/hairloss_predictor milakaasplank/prediction-ui:0.0.1
+
+By executing step 9 we run the Dockerfile in the prediction ui folder and thus run app.py
+10. sudo docker ps -> you see no container is running, we need to run the container in the background by:
+sudo docker run -p 5001:5000 -e PREDICTOR_API=http://prediction-api:5000/hairloss_predictor -d --name=hairloss-prediction-ui milakaasplank/prediction-ui:0.0.1
+11. 
+
+
 
 
 
