@@ -72,7 +72,19 @@ Connect container prediciton-ui and prediction-api to the same container network
 
 # Lab 2 Live
 1. Add folder training-api
-2. Create a docker image, build container for
+2. Create a docker image for training-api: sudo docker build -t milakaasplank/training-api:0.0.1 .
+3. mkdir models  ( at the home directory)
+4. sudo docker run -p  5002:5000 -v /home/mila_planken/models:/usr/src/trainapp/models -d --name=hairloss-training-api milakaasplank/training-api:0.0.1
+5. gcloud compute firewall-rules create flask-port-3 --allow tcp:5002
+6. Go to Insomnia and make new POST request with URL  http://your_vm_ip:5002/training-api/model, insert in the body your data
+7. sudo docker start hairloss-prediction-ui
+8. sudo docker start hairloss-prediction-api
+9. sudo docker start hairloss-training-api
+10. sudo docker network list
+11. sudo docker network create hairloss-app-network 
+12. sudo docker network connect hairloss-app-network prediction-api
+13. sudo docker network connect hairloss-app-network prediction-ui
+
 
 # Lab 3: Create a CI-CD pipeline
 1. Enable Cloud Build API, Cloud Run, Artifcat Registry APIs on Google Cloud.
