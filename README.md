@@ -70,6 +70,10 @@ Connect container prediciton-ui and prediction-api to the same container network
 9. sudo docker network connect hairloss-app-network prediction-ui
 10. Go to http:/VM_External_IP:5001/checkhairloss
 
+# Lab 2 Live
+1. Add folder training-api
+2. Create a docker image, build container for
+
 # Lab 3: Create a CI-CD pipeline
 1. Enable Cloud Build API, Cloud Run, Artifcat Registry APIs on Google Cloud.
 2. Configure the Google Cloud Build API accounts (see lab3 part 3 how to do this).
@@ -81,6 +85,9 @@ Connect container prediciton-ui and prediction-api to the same container network
 7. Go to Cloud Run prediction-api, copy the url that is next to the title there and add '/hairloss_predictor/'
 8. Go to prediction-ui, copy URL there and then add 'checkhairloss'
 e.g. https://prediction-ui-136177505402.us-central1.run.app/checkhairloss works!
+9. Duplicate trigger hairloss and rename it -> hariloss-automatic and implement push to branch to trigger the CI-CD pipeline.
+10. Commit something to main.
+11. 
 
 
 
