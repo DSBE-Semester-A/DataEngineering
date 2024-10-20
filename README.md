@@ -102,6 +102,17 @@ e.g. https://prediction-ui-136177505402.us-central1.run.app/checkhairloss works!
 10. Commit something to main.
 11. 
 
+# Lab 4: Create a MLOps Pipeline in Google Vertex AI
+1. Enable Google Cloud Vertex AI APIs
+2. Set up your Notebook Environment (for step 1 and 2 see slides lab4)
+3. Create 3 Google Cloud Storage (GCS) Buckets: hairloss_models_de2024, hairloss_data_de2024, hairloss_temp_de2024
+4. Upload "Predict Hair Fall.csv" and "training_set.csv" to the data bucket
+5. Go to Vertex AI workbench and create a new notebook -> Upload hairloss_v1.ipynb
+6. RUN ALL CELLS UP UNTIL AND INCLUDING "Submit the pipeline run".
+7. Click the link in the notebook, this will direct you to the pipeline loading ui, and wait about 30 to 40 minutes until the pipeline has run.
+8. Done waiting? You can check the model now in your model bucket.
+9. If you want to make a prediction: Run the cell under "Make an online prediction request"
+10. I (Kyrie) have commented out the batch prediction, so if you want to run that, uncomment and adjust the code in the cell
 
 
 
