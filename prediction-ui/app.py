@@ -4,12 +4,15 @@ import os
 import logging
 import requests
 from flask import Flask, request, render_template, jsonify
+import pickle
 
 # Flask constructor
 app = Flask(__name__)
 
+# Load the trained model
+with open('hair_loss_model.pkl', 'rb') as f:
+    model = pickle.load(f)
 
-# A decorator used to tell the application
 # which URL is associated function
 @app.route('/checkhairloss', methods=["GET", "POST"])
 def check_hairloss():
@@ -21,11 +24,11 @@ def check_hairloss():
             {
             "history": 1 if request.form.get("history") == "Yes" else 0,
             "hormonal": 1 if request.form.get("hormonal") == "Yes" else 0,
-            "medical": request.form.get("medical"),
-            "medication": request.form.get("medication"),
-            "nutritional": request.form.get("nutritional"),
-            "stress": 0 if request.form.get("stress") == "Low" else 1 if request.form.get("stress") == "Moderate" else 2,
-            "age": 1 if request.form.get("age") == "Yes" else 0,
+            "medical": 1 if request.form.get("medical") == "Psoriasis" else 0,
+            "medication": 1 if request.form.get("medication") == "Antidepressants" else 0,
+            "nutritional": 1 if request.form.get("nutritional") == "Iron deficiency" else 0,
+            "stress": 0 if request.form.get("stress") == "Low" else 0.5 if request.form.get("stress") == "Moderate" else 1,
+            "age": 1 if int(request.form.get("age", 0)) >= 33 else 0,
             "hair_care": 1 if request.form.get("hair_care") == "Yes" else 0,
             "environment": 1 if request.form.get("environment") == "Yes" else 0,
             "smoke": 1 if request.form.get("smoke") == "Yes" else 0,
@@ -42,7 +45,9 @@ def check_hairloss():
         predictor_api_url = os.environ['PREDICTOR_API']
         res = requests.post(predictor_api_url, json=json.loads(json.dumps(prediction_input)))
 
+        # Make prediction using the loaded model
         prediction_value = res.json()['result']
+
         logging.info("Prediction Output : %s", prediction_value)
         return render_template("response_page.html",
                                prediction_variable=prediction_value)

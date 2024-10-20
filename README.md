@@ -10,7 +10,7 @@ In order to run the Flask app locally follow this steps:
 7. python app.py
 8. Surf in your browser to http://127.0.0.1:5000/checkhairloss
 
-Note: the model is not working yet.
+Note: the model is not working yet -> firewall creation
 
 ## Lab 1: Creating and using VM
 1. Create a VM like INdika did in Lab 1: Part 2.
@@ -87,7 +87,7 @@ Connect container prediciton-ui and prediction-api to the same container network
 
 
 # Lab 3: Create a CI-CD pipeline
-1. Enable Cloud Build API, Cloud Run, Artifcat Registry APIs on Google Cloud.
+1. Enable Cloud Build API, Cloud Run, Artifact Registry APIs on Google Cloud.
 2. Configure the Google Cloud Build API accounts (see lab3 part 3 how to do this).
 3. Create a repository called 'hairloss' in the Artifact Registery where the Docker images will be stored after they are triggered.
 3. Connect with the repo: DataEngineering and create a trigger.

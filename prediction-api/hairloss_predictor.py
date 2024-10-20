@@ -9,8 +9,8 @@ from io import StringIO
 
 
 class HairlossPredictor:
-    def __init__(self):
-        self.model = None
+    def __init__(self, model_file):
+        self.model = load_model(model_file)
 
     def predict_single_record(self, prediction_input):
         logging.debug(prediction_input)
