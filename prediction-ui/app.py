@@ -21,7 +21,7 @@ def check_hairloss():
             "Genetics": request.form.get("history"),
             "Hormonal Changes": request.form.get("hormonal"),
             "Medical Conditions": request.form.get("medical"),
-            "Medications & Treatments": request.form.get("medication"),
+            "Medications & Treatments": request.form.get("medications"),
             "Nutritional Deficiencies": request.form.get("nutritional"),
             "Stress": request.form.get("stress"),
             "Age": int(request.form.get("age", 0)),
