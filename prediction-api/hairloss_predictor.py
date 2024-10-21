@@ -47,6 +47,9 @@ class HairlossPredictor:
             frequency_map = df[column].value_counts(normalize=True)
             df[column] = df[column].map(frequency_map)
         
+        # Print the DataFrame to the console
+        print("DataFrame used for prediction:\n", df)
+
         # Predict using the preprocessed data
         y_pred = self.model.predict(df)
         logging.info(y_pred[0])
