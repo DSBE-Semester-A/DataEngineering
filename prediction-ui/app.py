@@ -9,10 +9,6 @@ import pickle
 # Flask constructor
 app = Flask(__name__)
 
-# Load the trained model
-with open('hair_loss_model.pkl', 'rb') as f:
-    model = pickle.load(f)
-
 # which URL is associated function
 @app.route('/checkhairloss', methods=["GET", "POST"])
 def check_hairloss():
