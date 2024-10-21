@@ -32,7 +32,8 @@ class HairlossPredictor:
                     self.model = pickle.load(f)
 
         # Convert the JSON input into a DataFrame
-        df = pd.read_json(StringIO(json.dumps(prediction_input)), orient='records')
+        df = pd.DataFrame([prediction_input])
+        #df = pd.read_json(StringIO(json.dumps(prediction_input)), orient='records')
 
         # Preprocessing the input data
         columns = ['Genetics', 'Environmental Factors', 'Smoking', 'Weight Loss', 'Poor Hair Care Habits', 'Hormonal Changes']
