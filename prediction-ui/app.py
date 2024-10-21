@@ -32,13 +32,16 @@ def check_hairloss():
             }
         ]
 
+        # Print raw input data to the console
+        print("Form input received: ", prediction_input)
+
         logging.debug("Prediction input : %s", prediction_input)
 
         # use requests library to execute the prediction service API by sending an HTTP POST request
         # use an environment variable to find the value of the diabetes prediction API
         # json.dumps() function will convert a subset of Python objects into a json string.
         # json.loads() method can be used to parse a valid JSON string and convert it into a Python Dictionary.
-        predictor_api_url = os.environ.get('PREDICTOR_API', 'http://34.55.143.1:5001')
+        predictor_api_url = os.environ.get('PREDICTOR_API', 'http://35.222.44.63:5001')
         res = requests.post(predictor_api_url, json=json.loads(json.dumps(prediction_input)))
 
         # Make prediction using the loaded model
