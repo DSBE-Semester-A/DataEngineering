@@ -15,7 +15,7 @@ def predict_str():
     return dp.predict_single_record(prediction_inout)
 
 
-dp = HairlossPredictor()
+dp = HairlossPredictor("hair_loss_model.pkl")
 # The code within this conditional block will only run the python file is executed as a
 # script. See https://realpython.com/if-name-main-python/
 if __name__ == '__main__':
