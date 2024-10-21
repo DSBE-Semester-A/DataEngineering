@@ -22,17 +22,17 @@ def check_hairloss():
     elif request.method == "POST":
         prediction_input = [
             {
-            "history": 1 if request.form.get("history") == "Yes" else 0,
-            "hormonal": 1 if request.form.get("hormonal") == "Yes" else 0,
-            "medical": 1 if request.form.get("medical") == "Psoriasis" else 0,
-            "medication": 1 if request.form.get("medication") == "Antidepressants" else 0,
-            "nutritional": 1 if request.form.get("nutritional") == "Iron deficiency" else 0,
-            "stress": 0 if request.form.get("stress") == "Low" else 0.5 if request.form.get("stress") == "Moderate" else 1,
-            "age": 1 if int(request.form.get("age", 0)) >= 33 else 0,
-            "hair_care": 1 if request.form.get("hair_care") == "Yes" else 0,
-            "environment": 1 if request.form.get("environment") == "Yes" else 0,
-            "smoke": 1 if request.form.get("smoke") == "Yes" else 0,
-            "weightloss": 1 if request.form.get("weightloss") == "Yes" else 0
+            "Genetics": request.form.get("history"),
+            "Hormonal Changes": request.form.get("hormonal"),
+            "Medical Conditions": request.form.get("medical"),
+            "Medications & Treatments": request.form.get("medication"),
+            "Nutritional Deficiencies": request.form.get("nutritional"),
+            "Stress": request.form.get("stress"),
+            "Age": int(request.form.get("age", 0)),
+            "Poor Hair Care Habits": request.form.get("hair_care"),
+            "Environmental Factors": request.form.get("environment"),
+            "Smoking": request.form.get("smoke"),
+            "Weight Loss": request.form.get("weightloss")
             }
         ]
 
