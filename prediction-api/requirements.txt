@@ -3,6 +3,7 @@ flask
 pandas
 keras
 tensorflow
+scikit-learn
 numpy==1.26.4
 h5py
 six
