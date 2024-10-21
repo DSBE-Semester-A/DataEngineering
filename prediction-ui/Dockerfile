@@ -9,7 +9,7 @@ COPY . .
 # In prediction-api app.py last line shows the port which we want to expose
 EXPOSE 5000
 # Environment variables
-ENV PREDICTOR_API=http://prediction-api-server:5000/hairloss_predictor
+ENV PREDICTOR_API=http://prediction-api-server:5000/hairloss_predictor/
 
 # Add some metadata to the image
 LABEL prediction="0.0.1 mila"
