@@ -127,6 +127,11 @@ e.g. https://prediction-ui-136177505402.us-central1.run.app/checkhairloss works!
 9. If you want to make a prediction: Run the cell under "Make an online prediction request"
 10. I (Kyrie) have commented out the batch prediction, so if you want to run that, uncomment and adjust the code in the cell
 
+If you are done with DE:
+1. Go to Vertex AI -> Workbench and stop your instance.
+2. Go to Online Prediction -> Delete your endpoint
+3. Delete your model from the model registry.
+
 
 
 
