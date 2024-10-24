@@ -100,7 +100,17 @@ Connect container prediciton-ui and prediction-api to the same container network
 e.g. https://prediction-ui-136177505402.us-central1.run.app/checkhairloss works!
 9. Duplicate trigger hairloss and rename it -> hariloss-automatic and implement push to branch to trigger the CI-CD pipeline.
 10. Commit something to main.
-11. 
+
+# Lab 3 live: Creating Google Buckets
+1. Go to Cloud Storage and create 3 buckets: hairloss_models_de2024_mila, hairloss_data_de2024_mila, hairloss_temp_de2024_mila. They have to be unique in the world.
+2. Upload the model hairloss_model.pkl to the hairloss_models_de2024_mila bucket.
+3. Copy cloud_build_app_mlp_automated.json from lab3 into your github repo
+4. "gs://${_MODEL_REPO}/hair_loss_model.pkl",
+           "./prediction-api/hairloss_model_from_bucket.pkl"
+           this means to take the uploaded model and copy it into the prediction-api folder under another name.
+2. Download the model file from the bucket and replace th emodel used in the prediction-api with the downloaded file with gsutil.
+
+
 
 # Lab 4: Create a MLOps Pipeline in Google Vertex AI
 1. Enable Google Cloud Vertex AI APIs
