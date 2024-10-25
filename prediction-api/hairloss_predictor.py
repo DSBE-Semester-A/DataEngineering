@@ -1,6 +1,6 @@
 import json
 import os
-
+import numpy as np
 import pandas as pd
 from flask import jsonify
 import pickle
@@ -58,10 +58,20 @@ class HairlossPredictor:
         print("DataFrame used for prediction:\n", df)
 
         # Predict using the preprocessed data
+        # Predict using the preprocessed data
         y_pred = self.model.predict(df)
-        logging.info(y_pred[0])
+
+        # Print and log the prediction
+        print("Predicted values:", y_pred)  # This will show the raw predictions
+        logging.info(y_pred[0])  # Log the first prediction (if there is more than one)
+
+        # Convert the prediction to a list if needed (here, we assume y_pred is a single-element array)
         status = (y_pred[0] > 0.5)
+
+        # Log the type of status
         logging.info(type(status))
-        #logging.info(type(status[0]))
-        # return the prediction outcome as a json message. 200 is HTTP status code 200, indicating successful completion
-        return jsonify({'result': str(status[0])}), 200
+
+        # Return the prediction outcome as a JSON message
+        # Convert y_pred to a list for JSON serialization
+        return jsonify({'result': status.tolist() if isinstance(y_pred, np.ndarray) else str(status)}), 200
+
