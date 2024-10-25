@@ -4,7 +4,7 @@
        "name": "gcr.io/cloud-builders/gsutil",
        "args": [
            "cp",
-		   "gs://${_MODEL_REPO}/hair_loss_model.pkl",
+           "gs://${_MODEL_REPO}/hair_loss_model.pkl",
            "./prediction-api/hairloss_model_from_bucket.pkl"
         ]
     },
