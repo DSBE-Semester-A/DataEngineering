@@ -43,20 +43,8 @@ def check_hairloss():
         # json.loads() method can be used to parse a valid JSON string and convert it into a Python Dictionary.
         #predictor_api_url = os.environ.get('PREDICTOR_API', 'http://35.222.44.63:5001')
         predictor_api_url = "http://127.0.0.1:5001/hairloss_predictor/"
-        res = requests.post(predictor_api_url, json=json.loads(json.dumps(prediction_input)))
-
-        # Check if response is empty or not JSON
-        if res.status_code == 200:
-            if res.headers.get('Content-Type') == 'application/json':
-                try:
-                    prediction_value = res.json().get('result', 'No result found')
-                except ValueError:
-                    print("Error: Unable to parse JSON response")
-            else:
-                print(f"Error: Expected JSON, but got {res.headers.get('Content-Type')}")
-        else:
-            print(f"Error: Received status code {res.status_code}")
-            print(f"Response: {res.text}")
+        res = requests.post(predictor_api_url, json=prediction_input)
+        print(res)
 
         # Make prediction using the loaded model
         prediction_value = res.json()['result']
