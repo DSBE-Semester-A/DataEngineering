@@ -30,10 +30,16 @@ class HairlossPredictor:
                 print("MODEL_REPO is undefined")
                 with open("hair_loss_model.pkl", 'rb') as f:
                     self.model = pickle.load(f)
-
-        # Convert the JSON input into a DataFrame
-        df = pd.DataFrame([prediction_input])
+        
+        columns = ['Genetics', 'Hormonal Changes', 'Medical Conditions', 'Medications & Treatments',
+               'Nutritional Deficiencies', 'Stress', 'Age', 'Poor Hair Care Habits',
+               'Environmental Factors', 'Smoking', 'Weight Loss']
+    
+        # Create a DataFrame from user input
+        df = pd.DataFrame(prediction_input, columns=columns)
         #df = pd.read_json(StringIO(json.dumps(prediction_input)), orient='records')
+
+        print(df)
 
         # Preprocessing the input data
         columns = ['Genetics', 'Environmental Factors', 'Smoking', 'Weight Loss', 'Poor Hair Care Habits', 'Hormonal Changes']

@@ -41,7 +41,8 @@ def check_hairloss():
         # use an environment variable to find the value of the diabetes prediction API
         # json.dumps() function will convert a subset of Python objects into a json string.
         # json.loads() method can be used to parse a valid JSON string and convert it into a Python Dictionary.
-        predictor_api_url = os.environ.get('PREDICTOR_API', 'http://35.222.44.63:5001')
+        #predictor_api_url = os.environ.get('PREDICTOR_API', 'http://35.222.44.63:5001')
+        predictor_api_url = "http://127.0.0.1:5001/hairloss_predictor/"
         res = requests.post(predictor_api_url, json=json.loads(json.dumps(prediction_input)))
 
         # Check if response is empty or not JSON
