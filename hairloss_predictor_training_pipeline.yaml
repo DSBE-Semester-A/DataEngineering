@@ -2,11 +2,10 @@
 # Name: hairloss-predictor-training-pipeline
 # Inputs:
 #    data_bucket: str
-#    dataset_uri: str
 #    model_repo: str
-#    model_repo_uri: str
 #    project_id: str
-#    thresholds_dict_str: str
+#    testset_filename: str
+#    trainset_filename: str
 # Outputs:
 #    lr-model-evaluation-kpi: system.Metrics
 #    lr-model-evaluation-metrics: system.ClassificationMetrics
@@ -30,19 +29,22 @@ components:
                 componentInputParameter: pipelinechannel--project_id
           taskInfo:
             name: endpoint-create
-        importer-2:
+        importer:
           cachingOptions:
             enableCache: true
           componentRef:
-            name: comp-importer-2
+            name: comp-importer
           dependentTasks:
           - upload-model-to-gcs
           inputs:
             parameters:
+              pipelinechannel--model_repo:
+                componentInputParameter: pipelinechannel--model_repo
               uri:
-                componentInputParameter: pipelinechannel--model_repo_uri
+                runtimeValue:
+                  constant: gs://{{$.inputs.parameters['pipelinechannel--model_repo']}}/{{channel:task=train-lr;name=model;type=system.Model@0.0.1;}}
           taskInfo:
-            name: importer-2
+            name: importer
         model-deploy:
           cachingOptions:
             enableCache: true
@@ -86,13 +88,13 @@ components:
           componentRef:
             name: comp-model-upload
           dependentTasks:
-          - importer-2
+          - importer
           inputs:
             artifacts:
               unmanaged_container_model:
                 taskOutputArtifact:
                   outputArtifactKey: artifact
-                  producerTask: importer-2
+                  producerTask: importer
             parameters:
               display_name:
                 runtimeValue:
@@ -128,10 +130,24 @@ components:
           parameterType: BOOLEAN
         pipelinechannel--model_repo:
           parameterType: STRING
-        pipelinechannel--model_repo_uri:
-          parameterType: STRING
         pipelinechannel--project_id:
           parameterType: STRING
+  comp-download-data:
+    executorLabel: exec-download-data
+    inputDefinitions:
+      parameters:
+        bucket:
+          parameterType: STRING
+        file_name:
+          parameterType: STRING
+        project_id:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        dataset:
+          artifactType:
+            schemaTitle: system.Dataset
+            schemaVersion: 0.0.1
   comp-endpoint-create:
     executorLabel: exec-endpoint-create
     inputDefinitions:
@@ -199,18 +215,6 @@ components:
           parameterType: STRING
   comp-importer:
     executorLabel: exec-importer
-    inputDefinitions:
-      parameters:
-        uri:
-          parameterType: STRING
-    outputDefinitions:
-      artifacts:
-        artifact:
-          artifactType:
-            schemaTitle: system.Dataset
-            schemaVersion: 0.0.1
-  comp-importer-2:
-    executorLabel: exec-importer-2
     inputDefinitions:
       parameters:
         uri:
@@ -545,6 +549,42 @@ components:
           parameterType: STRING
 deploymentSpec:
   executors:
+    exec-download-data:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - download_data
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.7.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'pandas' 'google-cloud-storage'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef download_data(project_id: str, bucket: str, file_name: str, dataset:\
+          \ Output[Dataset]):\n    '''download data'''\n    from google.cloud import\
+          \ storage\n    import pandas as pd\n    import logging \n    import sys\n\
+          \n    logging.basicConfig(stream=sys.stdout, level=logging.INFO)\n\n   \
+          \ # Downloaing the file from a google bucket \n    client = storage.Client(project=project_id)\n\
+          \    bucket = client.bucket(bucket)\n    blob = bucket.blob(file_name)\n\
+          \    blob.download_to_filename(dataset.path + \".csv\")\n    logging.info('Downloaded\
+          \ Data!')\n\n"
+        image: python:3.10.7-slim
     exec-endpoint-create:
       container:
         args:
@@ -574,14 +614,7 @@ deploymentSpec:
     exec-importer:
       importer:
         artifactUri:
-          runtimeParameter: uri
-        typeSchema:
-          schemaTitle: system.Dataset
-          schemaVersion: 0.0.1
-    exec-importer-2:
-      importer:
-        artifactUri:
-          runtimeParameter: uri
+          constant: gs://{{channel:task=;name=model_repo;type=String;}}/{{channel:task=train-lr;name=model;type=system.Model@0.0.1;}}
         metadata:
           containerSpec:
             imageUri: us-docker.pkg.dev/vertex-ai/prediction/sklearn-cpu.1-3:latest
@@ -848,8 +881,6 @@ root:
                 producerTask: lr-model-evaluation
             pipelinechannel--model_repo:
               componentInputParameter: model_repo
-            pipelinechannel--model_repo_uri:
-              componentInputParameter: model_repo_uri
             pipelinechannel--project_id:
               componentInputParameter: project_id
         taskInfo:
@@ -857,17 +888,21 @@ root:
         triggerPolicy:
           condition: inputs.parameter_values['pipelinechannel--lr-model-evaluation-approval']
             == true
-      importer:
+      download-data:
         cachingOptions:
           enableCache: true
         componentRef:
-          name: comp-importer
+          name: comp-download-data
         inputs:
           parameters:
-            uri:
-              componentInputParameter: dataset_uri
+            bucket:
+              componentInputParameter: data_bucket
+            file_name:
+              componentInputParameter: trainset_filename
+            project_id:
+              componentInputParameter: project_id
         taskInfo:
-          name: importer
+          name: download-data
       lr-model-evaluation:
         cachingOptions:
           enableCache: true
@@ -888,7 +923,8 @@ root:
                 producerTask: train-test-split
           parameters:
             thresholds_dict_str:
-              componentInputParameter: thresholds_dict_str
+              runtimeValue:
+                constant: '0.7'
         taskInfo:
           name: lr-model-evaluation
       train-lr:
@@ -912,28 +948,26 @@ root:
         componentRef:
           name: comp-train-test-split
         dependentTasks:
-        - importer
+        - download-data
         inputs:
           artifacts:
             dataset:
               taskOutputArtifact:
-                outputArtifactKey: artifact
-                producerTask: importer
+                outputArtifactKey: dataset
+                producerTask: download-data
         taskInfo:
           name: train-test-split
   inputDefinitions:
     parameters:
       data_bucket:
         parameterType: STRING
-      dataset_uri:
-        parameterType: STRING
       model_repo:
-        parameterType: STRING
-      model_repo_uri:
         parameterType: STRING
       project_id:
         parameterType: STRING
-      thresholds_dict_str:
+      testset_filename:
+        parameterType: STRING
+      trainset_filename:
         parameterType: STRING
   outputDefinitions:
     artifacts:

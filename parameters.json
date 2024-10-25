@@ -1,7 +1,7 @@
 {
-  "project_id": "de2024-kyrie",
-  "data_bucket": "data_hairloss",
+  "project_id": "endless-mile-435507-h9",
+  "data_bucket": "hairloss-de-data",
   "trainset_filename": "training_set.csv",
   "testset_filename": "test_set.csv", 
-  "model_repo": "models_hairloss"
+  "model_repo": "hairloss-de-models"
 }
