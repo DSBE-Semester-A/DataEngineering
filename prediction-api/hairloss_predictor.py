@@ -41,6 +41,7 @@ class HairlossPredictor:
             df[column] = df[column].map({'Yes': 1, 'No': 0})
 
         df['Stress'] = df['Stress'].map({'High': 1.0, 'Moderate': 0.5, 'Low': 0.0})
+        df['Age'] = int(df['Age'])
 
         columns_to_encode = ['Medical Conditions', 'Medications & Treatments', 'Nutritional Deficiencies']
         for column in columns_to_encode:

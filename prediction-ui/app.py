@@ -24,7 +24,7 @@ def check_hairloss():
             "Medications & Treatments": request.form.get("medications"),
             "Nutritional Deficiencies": request.form.get("nutritional"),
             "Stress": request.form.get("stress"),
-            "Age": int(request.form.get("age", 0)),
+            "Age": request.form.get("age"),
             "Poor Hair Care Habits": request.form.get("hair_care"),
             "Environmental Factors": request.form.get("environment"),
             "Smoking": request.form.get("smoke"),
