@@ -6,6 +6,12 @@
     <h1>Prediction Result</h1>
     <p>Your hair loss prediction is: <strong>{{ prediction_variable }}</strong></p>
     <a href="/checkhairloss">Check another prediction</a>
+
+    {% if prediction_variable == true %}
+        <img src="{{ url_for('static', filename='image_bald.png') }}" alt="Image indicating hair loss" />
+    {% else %}
+        <img src="{{ url_for('static', filename='image.png') }}" alt="Image indicating no hair loss" />
+    {% endif %}
 </body>
 </html>
 <!-- check https://flask.palletsprojects.com/en/2.3.x/tutorial/templates/ for information if needed -->
