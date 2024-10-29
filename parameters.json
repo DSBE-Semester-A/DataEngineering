@@ -3,5 +3,6 @@
   "data_bucket": "hairloss-de-data",
   "trainset_filename": "training_set.csv",
   "testset_filename": "test_set.csv", 
-  "model_repo": "hairloss-de-models"
+  "model_repo": "hairloss-de-models",
+  "trigger_id": "5fd4d88c-0e8d-4b6b-a093-b19d2f1e6eb4"
 }
