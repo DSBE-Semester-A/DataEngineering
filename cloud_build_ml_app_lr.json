@@ -5,7 +5,7 @@
        "args": [
            "cp",
 		   "gs://${_MODEL_REPO}/lr_model.pkl",
-           "./lab2/prediction-api-lr/model.pkl"
+           "./prediction-api-lr/model.pkl"
         ]
     },
     {
@@ -14,7 +14,7 @@
         "build",
         "-t",
         "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/prediction-api-lr:0.0.1",
-        "./lab2/prediction-api-lr"
+        "./prediction-api-lr"
       ]
     },   
     {
@@ -34,7 +34,7 @@
         "--image",
         "${_LOCATION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/prediction-api-lr:0.0.1",
         "--region",
-        "us-central1",
+        "europe-west1",
         "--platform",
         "managed",
         "--port",
