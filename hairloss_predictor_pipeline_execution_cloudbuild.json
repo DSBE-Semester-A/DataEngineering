@@ -15,7 +15,8 @@
            "--name=diabetes-predictor-pipeline",           
 		   "--pipeline_def=hairloss_predictor_training_pipeline.yaml",
            "--pipeline_root=gs://${_TEMP_REPO}",         
-		   "--parameter_dict=./parameters.json"
+		   "--parameter_dict=./parameters.json",
+       "--region=${_LOCATION}"
         ]
    }
    ],
