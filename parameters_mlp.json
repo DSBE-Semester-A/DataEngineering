@@ -1,6 +1,0 @@
-{
-  "project_id": "de2024-kyrie",
-  "data_bucket": "data_hairloss",
-  "trainset_filename": "training_set.csv",
-  "model_repo": "models_hairloss"
-}
