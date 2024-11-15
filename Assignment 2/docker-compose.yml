@@ -90,13 +90,13 @@ services:
     volumes:
       - spark-data-marvel:/home/jovyan/data-marvel
       - spark-checkpoint-marvel:/home/jovyan/checkpoint-marvel
-  zookeeper:
+  zookeeper-marvel:
     image: zookeeper:3.4.9
     hostname: zookeeper
     container_name: zookeeper-marvel
     ports:
       - "2181:2181"
-  kafka1:
+  kafka1-marvel:
     image: confluentinc/cp-kafka:5.2.5
     hostname: kafka1
     container_name: kafka1-marvel
