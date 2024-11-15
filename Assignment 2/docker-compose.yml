@@ -46,8 +46,8 @@ services:
       - "8080:8080"
       - "7077:7077"
     volumes:
-      - spark-data:/home/jovyan/data-marvel
-      - spark-checkpoint:/home/jovyan/checkpoint-marvel
+      - spark-data-marvel:/home/jovyan/data-marvel
+      - spark-checkpoint-marvel:/home/jovyan/checkpoint-marvel
   spark-worker-1-marvel:
     build:
       context: ./spark-bitnami-python3.11
@@ -67,8 +67,8 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - spark-data:/home/jovyan/data-marvel
-      - spark-checkpoint:/home/jovyan/checkpoint-marvel
+      - spark-data-marvel:/home/jovyan/data-marvel
+      - spark-checkpoint-marvel:/home/jovyan/checkpoint-marvel
   spark-worker-2-marvel:
     build:
       context: ./spark-bitnami-python3.11
