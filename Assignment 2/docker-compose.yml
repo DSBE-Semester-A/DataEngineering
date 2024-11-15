@@ -2,23 +2,23 @@ volumes:
   spark-data:
     driver_opts:
       type: none
-      device: /home/${USER_HOME}/data
+      device: /home/${USER_HOME}/data-marvel
       o: bind
   notebooks:
     driver_opts:
       type: none
-      device: /home/${USER_HOME}/notebooks
+      device: /home/${USER_HOME}/notebooks-marvel
       o: bind
   spark-checkpoint:
     driver_opts:
       type: none
-      device: /home/${USER_HOME}/checkpoint
+      device: /home/${USER_HOME}/checkpoint-marvel
       o: bind
 services:
   spark-driver-app:
     build:
       context: ./jupyter-all-spark-notebook-gcp    # jupyter/all-spark-notebook with spark configurations for bigquery and gcs
-    container_name: spark-driver-app
+    container_name: spark-driver-app-marvel
     user: root
     ports:
       - "8888:8888"
@@ -26,13 +26,13 @@ services:
     environment:
       - JUPYTER_ENABLE_LAB=yes
     volumes:
-      - notebooks:/home/jovyan/notebooks  # jovyan is the default user of the image all-spark-notebook:spark-3.1.2. Do not change this
-      - spark-data:/home/jovyan/data
-      - spark-checkpoint:/home/jovyan/checkpoint
+      - notebooks:/home/jovyan/notebooks-marvel  # jovyan is the default user of the image all-spark-notebook:spark-3.1.2. Do not change this
+      - spark-data:/home/jovyan/data-marvel
+      - spark-checkpoint:/home/jovyan/checkpoint-marvel
   spark-master:
     build:
       context: ./spark-bitnami-python3.11
-    container_name: spark-master
+    container_name: spark-master-marvel
     user: root
     environment:
       - SPARK_MODE=master
@@ -46,15 +46,15 @@ services:
       - "8080:8080"
       - "7077:7077"
     volumes:
-      - spark-data:/home/jovyan/data
-      - spark-checkpoint:/home/jovyan/checkpoint
+      - spark-data:/home/jovyan/data-marvel
+      - spark-checkpoint:/home/jovyan/checkpoint-marvel
   spark-worker-1:
     build:
       context: ./spark-bitnami-python3.11
-    container_name: spark-worker-1
+    container_name: spark-worker-1-marvel
     user: root
     depends_on:
-      - spark-master
+      - spark-master-marvel
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
@@ -67,15 +67,15 @@ services:
     ports:
       - "8081:8081"
     volumes:
-      - spark-data:/home/jovyan/data
-      - spark-checkpoint:/home/jovyan/checkpoint
+      - spark-data:/home/jovyan/data-marvel
+      - spark-checkpoint:/home/jovyan/checkpoint-marvel
   spark-worker-2:
     build:
       context: ./spark-bitnami-python3.11
-    container_name: spark-worker-2
+    container_name: spark-worker-2-marvel
     user: root
     depends_on:
-      - spark-master
+      - spark-master-marvel
     environment:
       - SPARK_MODE=worker
       - SPARK_MASTER_URL=spark://spark-master:7077
@@ -88,18 +88,18 @@ services:
     ports:
       - "8082:8081"
     volumes:
-      - spark-data:/home/jovyan/data
-      - spark-checkpoint:/home/jovyan/checkpoint
+      - spark-data:/home/jovyan/data-marvel
+      - spark-checkpoint:/home/jovyan/checkpoint-marvel
   zookeeper:
     image: zookeeper:3.4.9
     hostname: zookeeper
-    container_name: zookeeper
+    container_name: zookeeper-marvel
     ports:
       - "2181:2181"
   kafka1:
     image: confluentinc/cp-kafka:5.2.5
     hostname: kafka1
-    container_name: kafka1
+    container_name: kafka1-marvel
     ports:
       - "9092:9092"
     environment:
