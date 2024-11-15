@@ -9,7 +9,7 @@ volumes:
       type: none
       device: /home/${USER_HOME}/notebooks-marvel
       o: bind
-  spark-checkpoint:
+  spark-checkpoint-marvel:
     driver_opts:
       type: none
       device: /home/${USER_HOME}/checkpoint-marvel
