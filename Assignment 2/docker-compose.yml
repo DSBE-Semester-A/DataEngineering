@@ -27,8 +27,8 @@ services:
       - JUPYTER_ENABLE_LAB=yes
     volumes:
       - notebooks:/home/jovyan/notebooks-marvel  # jovyan is the default user of the image all-spark-notebook:spark-3.1.2. Do not change this
-      - spark-data:/home/jovyan/data-marvel
-      - spark-checkpoint:/home/jovyan/checkpoint-marvel
+      - spark-data-marvel:/home/jovyan/data-marvel
+      - spark-checkpoint-marvel:/home/jovyan/checkpoint-marvel
   spark-master-marvel:
     build:
       context: ./spark-bitnami-python3.11
